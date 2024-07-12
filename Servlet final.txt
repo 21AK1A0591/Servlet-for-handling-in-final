@@ -1,0 +1,27 @@
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class SearchFlightServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String origin = request.getParameter("origin");
+        String destination = request.getParameter("destination");
+        Date departureDate = new Date(request.getParameter("departureDate"));
+
+        List<Flight> flights = searchFlights(origin, destination, departureDate);
+
+        request.setAttribute("flights", flights);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("searchResults.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private List<Flight> searchFlights(String origin, String destination, Date departureDate) {
+        // Simplified search logic
+        List<Flight> flights = new ArrayList<>();
+        flights.add(new Flight(1, origin, destination, departureDate, 100));
+        return flights;
+    }
+}
